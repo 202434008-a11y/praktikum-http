@@ -1,0 +1,115 @@
+praktikum2
+pertama yang saya lakukan adalah membuat collecsion Bernama Minggu 2 — Eksplorasi HTTP. Setelah itu saya lanjut membuat 2 folder, pada foldet 1 saya membuat get baru dengan nama Echo Query Parameters, saya juga mengisi bagian parameter sesuai dengan arahan di modul praktikum. Namun saat dikirim, requestnya eror dan Ketika saya memeriksa, ternyata link echo yang saya copy dari modul memiliki https double. Setelah salah satunya di kirim Kembali, requestnya berhasil.Pada body bagian Bawah, muncul seperti berikut
+
+{
+    "args": {
+        "search": "laravel api",
+        "page": "2"
+    },
+    "headers": {
+        "host": "postman-echo.com",
+        "cache-control": "no-cache",
+        "postman-token": "780d3be1-dde1-4cbc-9625-2d18a9610170",
+        "accept-encoding": "gzip, br",
+        "accept": "*/*",
+        "x-forwarded-proto": "https",
+        "user-agent": "PostmanRuntime/2.7.0"
+    },
+    "url": "https://postman-echo.com/get?search=laravel%20api&page=2"
+}
+
+Langkah berikutnya membuat Echo Custom Header dan status 200 dengan tampilan body sebagai berikut
+
+"args": {
+        "Accept": "application/json",
+        "X-Student-Client": "postman-week-2"
+    },
+    "headers": {
+        "host": "postman-echo.com",
+        "postman-token": "7f23d35f-6d1f-4258-8abe-1ed312b04be8",
+        "user-agent": "PostmanRuntime/2.7.0",
+        "accept-encoding": "gzip, br",
+        "x-forwarded-proto": "https",
+        "accept": "*/*",
+        "cache-control": "no-cache",
+        "cookie": "__cf_bm=RHRwJ3dyl8TRdToxyPVasR_8x9vUtUQfUYHOF29_GOs-1789976368.0270367-1.0.1.1-aEpx2vuH1f63j1ViyTkOtEjmBI5wvqBycJg9NpgEIPAixnFa3XytAHnMbiseQ4GwkTbilua7jysyBdvJ5yzNy6pKzNzAyWkod0HbL.Q4uXHPflYDm_TRO2oKJY4_tdAT; _cfuvid=w4zJkJ5OkxNLJKb_TL3lymBxGihn6kvgZ6vLbdk_fHI-1789976368.0270367-1.0.1.1-R9mhmzy09NWIoxp6mBgWyh50O.3isOk0KrhA3FQ_C.w; sails.sid=s%3ArJKinqVG6l2yU4G5zM1Gr06CzadOVB8y.q6MjzBs8r6dErZ3xkzJC9avBE%2BGC5cpFT%2Bsw0gX87cA"
+    },
+    "url": "https://postman-echo.com/get?Accept=application/json&X-Student-Client=postman-week-2"
+}
+
+-saya mencoba menggunakan post before request, hasilnya 404 not found dengan catatan 
+failed
+Status code is 200 | TypeError: Cannot read properties of undefined (reading 'to')
+failed
+Response is JSON | TypeError: Cannot read properties of undefined (reading 'to')
+failed
+Custom header was received | TypeError: Cannot read properties of undefined (reading 'json')
+
+-Langkah berikut saya mencoba post after request, hasilnya eror juga 404 not found
+failed
+Status code is 200 | AssertionError: expected response to have status code 200 but got 404
+failed
+Response is JSON | AssertionError: expected response body to be a valid json but got error No data, empty input at 1:1
+failed
+Custom header was received | JSONError: No data, empty input at 1:1 ^
+
+
+-ternyata tetap menggunakan GET dan link header tidak perlu dihapus, lalu hasilnya seperti berikut
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Response is JSON", function () {
+    pm.response.to.be.json;
+});
+
+pm.test("Custom header was received", function () {
+    const body = pm.response.json();
+    pm.expect(body.headers["x-student-client"]).to.eql("postman-week-2");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
